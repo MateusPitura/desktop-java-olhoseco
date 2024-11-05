@@ -186,8 +186,8 @@ public class OlhoSeco extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnToggleStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToggleStateActionPerformed
-        imgEyeOpen = new ImageIcon("src/main/java/com/mycompany/olhoseco/assets/open.png");
-        imgEyeClose = new ImageIcon("src/main/java/com/mycompany/olhoseco/assets/close.png");
+        imgEyeOpen = new ImageIcon(getClass().getResource("/open.png"));
+        imgEyeClose = new ImageIcon(getClass().getResource("/close.png"));
         isImgEyeCloseDisplayed = true;
         
         imgEyeLabel = new JLabel(imgEyeOpen);
@@ -227,7 +227,8 @@ public class OlhoSeco extends javax.swing.JFrame {
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         Rectangle screenBounds = gd.getDefaultConfiguration().getBounds();
         
-        JFrame frame = new JFrame("Olho Seco");
+        JFrame frame = new JFrame("");
+        frame.setSize(192, 108);
        
         int frameWidth = frame.getWidth();
         int frameHeight = frame.getHeight();
