@@ -1,24 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.olhoseco;
 
+import java.awt.Color;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
-/**
- *
- * @author mateus
- */
 public class OlhoSeco extends javax.swing.JFrame {
     private ImageIcon imgEyeOpen;
     private ImageIcon imgEyeClose;
@@ -26,13 +21,23 @@ public class OlhoSeco extends javax.swing.JFrame {
     private JLabel imgEyeLabel;
     private Timer pauseTimer;
     private Integer count;
-    private double blinkSpeed;
+    private int blinkSpeed;
+    static int initialPosition = 1;
 
-    /**
-     * Creates new form MainView
-     */
-    public OlhoSeco() {
+    public OlhoSeco() {       
         initComponents();
+        
+        btnToggleState.addMouseListener(new MouseAdapter() {
+            public void mouseEntered(MouseEvent e) {
+                btnToggleState.setBackground(new Color(0xe0e0e0));
+            }
+
+            public void mouseExited(MouseEvent e) {
+                btnToggleState.setBackground(new Color(0x904b3d));
+            }
+        });
+        
+        this.getContentPane().setBackground(new Color(0xfff8f6));
     }
 
     /**
@@ -51,29 +56,49 @@ public class OlhoSeco extends javax.swing.JFrame {
         labelPosition = new javax.swing.JLabel();
         topRight = new javax.swing.JRadioButton();
         topLeft = new javax.swing.JRadioButton();
-        bottomRight = new javax.swing.JRadioButton();
         bottomLeft = new javax.swing.JRadioButton();
+        bottomRight = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Olho Seco");
+        setBackground(new java.awt.Color(255, 248, 246));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setLocation(new java.awt.Point(0, 0));
         setLocationByPlatform(true);
+        setMaximumSize(new java.awt.Dimension(300, 300));
+        setPreferredSize(new java.awt.Dimension(300, 300));
 
-        btnToggleState.setText("Iniciar");
+        btnToggleState.setBackground(new java.awt.Color(144, 75, 61));
+        btnToggleState.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        btnToggleState.setForeground(new java.awt.Color(255, 255, 255));
+        btnToggleState.setText("INICIAR");
+        btnToggleState.setToolTipText("");
+        btnToggleState.setBorderPainted(false);
+        btnToggleState.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnToggleState.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnToggleStateActionPerformed(evt);
             }
         });
 
+        labelSpeed.setForeground(new java.awt.Color(35, 25, 23));
         labelSpeed.setText("Velocidade (ms)");
 
+        inputBlinkSpeed.setForeground(new java.awt.Color(35, 25, 23));
         inputBlinkSpeed.setText("3000");
+        inputBlinkSpeed.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                inputBlinkSpeedActionPerformed(evt);
+            }
+        });
 
+        labelPosition.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        labelPosition.setForeground(new java.awt.Color(35, 25, 23));
         labelPosition.setText("Posição");
 
+        topRight.setBackground(new java.awt.Color(255, 248, 246));
         positionGroup.add(topRight);
+        topRight.setForeground(new java.awt.Color(35, 25, 23));
         topRight.setText("Em cima direita");
         topRight.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,7 +106,9 @@ public class OlhoSeco extends javax.swing.JFrame {
             }
         });
 
+        topLeft.setBackground(new java.awt.Color(255, 248, 246));
         positionGroup.add(topLeft);
+        topLeft.setForeground(new java.awt.Color(35, 25, 23));
         topLeft.setSelected(true);
         topLeft.setText("Em cima esquerda");
         topLeft.addActionListener(new java.awt.event.ActionListener() {
@@ -90,19 +117,23 @@ public class OlhoSeco extends javax.swing.JFrame {
             }
         });
 
-        positionGroup.add(bottomRight);
-        bottomRight.setText("Em baixo direita");
-        bottomRight.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bottomRightActionPerformed(evt);
-            }
-        });
-
+        bottomLeft.setBackground(new java.awt.Color(255, 248, 246));
         positionGroup.add(bottomLeft);
+        bottomLeft.setForeground(new java.awt.Color(35, 25, 23));
         bottomLeft.setText("Em baixo esquerda");
         bottomLeft.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 bottomLeftActionPerformed(evt);
+            }
+        });
+
+        bottomRight.setBackground(new java.awt.Color(255, 248, 246));
+        positionGroup.add(bottomRight);
+        bottomRight.setForeground(new java.awt.Color(35, 25, 23));
+        bottomRight.setText("Em baixo direita");
+        bottomRight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bottomRightActionPerformed(evt);
             }
         });
 
@@ -111,40 +142,44 @@ public class OlhoSeco extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(labelSpeed)
-                        .addGap(18, 18, 18)
-                        .addComponent(inputBlinkSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(btnToggleState)
-                    .addComponent(labelPosition)
-                    .addComponent(topRight)
-                    .addComponent(topLeft)
-                    .addComponent(bottomRight)
-                    .addComponent(bottomLeft))
-                .addContainerGap(50, Short.MAX_VALUE))
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(labelPosition)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(labelSpeed)
+                                .addGap(18, 18, 18)
+                                .addComponent(inputBlinkSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(bottomLeft)
+                            .addComponent(bottomRight)
+                            .addComponent(topRight)
+                            .addComponent(topLeft)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(95, 95, 95)
+                        .addComponent(btnToggleState, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelSpeed)
                     .addComponent(inputBlinkSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(labelPosition)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(topLeft)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(topRight)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bottomLeft)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(bottomRight)
                 .addGap(18, 18, 18)
-                .addComponent(btnToggleState)
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addComponent(btnToggleState, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31))
         );
 
         pack();
@@ -158,32 +193,34 @@ public class OlhoSeco extends javax.swing.JFrame {
         imgEyeLabel = new JLabel(imgEyeOpen);
         
         try{
-            blinkSpeed = (double)Integer.valueOf(inputBlinkSpeed.getText());
+            blinkSpeed = (int)Integer.valueOf(inputBlinkSpeed.getText());
         } catch (NumberFormatException numberFormatException){
             JOptionPane.showMessageDialog(this, "Velocidade inválida");
             return;
         }
-        blinkSpeed = Math.ceil(blinkSpeed/500);
         
-        if(blinkSpeed <= 1){
-            JOptionPane.showMessageDialog(this, "Velocidade inválida");
+        if(blinkSpeed < 500){
+            JOptionPane.showMessageDialog(this, "Velocidade inválida, deve ser maior que 500 ms");
             return;
         }
         
-        count = 0;
-        
         Timer timer = new Timer(500, new ActionListener() {
+            private boolean showingEyeClose = true;
+
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(count == blinkSpeed){
+                if (showingEyeClose) {
                     imgEyeLabel.setIcon(imgEyeClose);
-                } else if(count == blinkSpeed + 1) {
-                    imgEyeLabel.setIcon(imgEyeOpen);    
-                    count = 0;
+                    ((Timer)e.getSource()).setDelay(blinkSpeed);
+                } else {
+                    imgEyeLabel.setIcon(imgEyeOpen);
+                    ((Timer)e.getSource()).setDelay(500);
                 }
-                count++;
+                showingEyeClose = !showingEyeClose; // Alterna a imagem na próxima execução
             }
         });
+
+        timer.setInitialDelay(0);
         timer.start();
   
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
@@ -200,19 +237,51 @@ public class OlhoSeco extends javax.swing.JFrame {
         if(topRight.isSelected()){
             x = screenBounds.width - frameWidth;
             y = 0;
+            initialPosition = 2;
         } else if(topLeft.isSelected()){
             x = 0;
             y = 0;
+            initialPosition = 3;
         } else if(bottomLeft.isSelected()){
             x = 0;
             y = screenBounds.height - frameHeight;
+            initialPosition = 4;
         } else if(bottomRight.isSelected()) {
             x = screenBounds.width - frameWidth;
             y = screenBounds.height - frameHeight;
+            initialPosition = 1;
         } else {
             JOptionPane.showMessageDialog(this, "Escolha pelo menos uma opção");
             return;
         }
+        
+        frame.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                
+                if(initialPosition == 1){
+                    int newX = screenBounds.width - frameWidth;
+                    int newY = 0;
+                    frame.setLocation(newX, newY);
+                    initialPosition = 2;
+                } else if (initialPosition == 2){
+                    int newX = 0;
+                    int newY = 0;
+                    frame.setLocation(newX, newY);
+                    initialPosition = 3;
+                } else if (initialPosition == 3){
+                    int newX = 0;
+                    int newY = screenBounds.height - frameHeight;
+                    initialPosition = 4;
+                    frame.setLocation(newX, newY);
+                } else if (initialPosition == 4){
+                    int newX = screenBounds.width - frameWidth;
+                    int newY = screenBounds.height - frameHeight;
+                    frame.setLocation(newX, newY);
+                    initialPosition = 1;
+                }
+            }
+        });
 
         frame.setLocation(x, y);
         
@@ -239,6 +308,10 @@ public class OlhoSeco extends javax.swing.JFrame {
     private void bottomLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bottomLeftActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_bottomLeftActionPerformed
+
+    private void inputBlinkSpeedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputBlinkSpeedActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_inputBlinkSpeedActionPerformed
 
     /**
      * @param args the command line arguments
