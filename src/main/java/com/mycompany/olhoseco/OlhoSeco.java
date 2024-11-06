@@ -23,6 +23,7 @@ public class OlhoSeco extends javax.swing.JFrame {
     private Integer count;
     private int blinkSpeed;
     static int initialPosition = 1;
+    private Timer timer;
 
     public OlhoSeco() {       
         initComponents();
@@ -50,6 +51,7 @@ public class OlhoSeco extends javax.swing.JFrame {
     private void initComponents() {
 
         positionGroup = new javax.swing.ButtonGroup();
+        sizeGroup = new javax.swing.ButtonGroup();
         btnToggleState = new javax.swing.JButton();
         labelSpeed = new javax.swing.JLabel();
         inputBlinkSpeed = new javax.swing.JTextField();
@@ -58,6 +60,10 @@ public class OlhoSeco extends javax.swing.JFrame {
         topLeft = new javax.swing.JRadioButton();
         bottomLeft = new javax.swing.JRadioButton();
         bottomRight = new javax.swing.JRadioButton();
+        labelSize = new javax.swing.JLabel();
+        large = new javax.swing.JRadioButton();
+        middle = new javax.swing.JRadioButton();
+        small = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Olho Seco");
@@ -66,7 +72,6 @@ public class OlhoSeco extends javax.swing.JFrame {
         setLocation(new java.awt.Point(0, 0));
         setLocationByPlatform(true);
         setMaximumSize(new java.awt.Dimension(300, 300));
-        setPreferredSize(new java.awt.Dimension(300, 300));
 
         btnToggleState.setBackground(new java.awt.Color(144, 75, 61));
         btnToggleState.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
@@ -82,10 +87,10 @@ public class OlhoSeco extends javax.swing.JFrame {
         });
 
         labelSpeed.setForeground(new java.awt.Color(35, 25, 23));
-        labelSpeed.setText("Velocidade (ms)");
+        labelSpeed.setText("Velocidade em segundos");
 
         inputBlinkSpeed.setForeground(new java.awt.Color(35, 25, 23));
-        inputBlinkSpeed.setText("3000");
+        inputBlinkSpeed.setText("3");
         inputBlinkSpeed.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 inputBlinkSpeedActionPerformed(evt);
@@ -137,6 +142,31 @@ public class OlhoSeco extends javax.swing.JFrame {
             }
         });
 
+        labelSize.setFont(new java.awt.Font("Liberation Sans", 1, 15)); // NOI18N
+        labelSize.setForeground(new java.awt.Color(35, 25, 23));
+        labelSize.setText("Tamanho");
+
+        large.setBackground(new java.awt.Color(255, 248, 246));
+        sizeGroup.add(large);
+        large.setForeground(new java.awt.Color(35, 25, 23));
+        large.setText("Grande");
+        large.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                largeActionPerformed(evt);
+            }
+        });
+
+        middle.setBackground(new java.awt.Color(255, 248, 246));
+        sizeGroup.add(middle);
+        middle.setForeground(new java.awt.Color(35, 25, 23));
+        middle.setSelected(true);
+        middle.setText("Médio");
+
+        small.setBackground(new java.awt.Color(255, 248, 246));
+        sizeGroup.add(small);
+        small.setForeground(new java.awt.Color(35, 25, 23));
+        small.setText("Pequeno");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -146,27 +176,39 @@ public class OlhoSeco extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(labelPosition)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(labelSpeed)
-                                .addGap(18, 18, 18)
-                                .addComponent(inputBlinkSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(small)
                             .addComponent(bottomLeft)
                             .addComponent(bottomRight)
                             .addComponent(topRight)
-                            .addComponent(topLeft)))
+                            .addComponent(topLeft)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(labelSpeed)
+                                .addGap(18, 18, 18)
+                                .addComponent(inputBlinkSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(labelSize)
+                            .addComponent(large)
+                            .addComponent(middle)
+                            .addComponent(labelPosition)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(95, 95, 95)
                         .addComponent(btnToggleState, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 61, Short.MAX_VALUE))
+                .addGap(0, 17, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(18, Short.MAX_VALUE)
+                .addContainerGap(30, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(labelSpeed)
                     .addComponent(inputBlinkSpeed, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(labelSize)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(large)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(middle)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(small)
                 .addGap(18, 18, 18)
                 .addComponent(labelPosition)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -186,8 +228,22 @@ public class OlhoSeco extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnToggleStateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnToggleStateActionPerformed
-        imgEyeOpen = new ImageIcon(getClass().getResource("/open.png"));
-        imgEyeClose = new ImageIcon(getClass().getResource("/close.png"));
+        JFrame frame = new JFrame("");
+
+        if(large.isSelected()){
+            imgEyeOpen = new ImageIcon(getClass().getResource("/open-large.png"));
+            imgEyeClose = new ImageIcon(getClass().getResource("/close-large.png"));
+            frame.setSize(192, 108);
+        } else if(middle.isSelected()){
+            imgEyeOpen = new ImageIcon(getClass().getResource("/open-middle.png"));
+            imgEyeClose = new ImageIcon(getClass().getResource("/close-middle.png"));
+            frame.setSize(144, 81);            
+        } else if(small.isSelected()){
+            imgEyeOpen = new ImageIcon(getClass().getResource("/open-small.png"));
+            imgEyeClose = new ImageIcon(getClass().getResource("/close-small.png"));
+            frame.setSize(96, 54);
+        } 
+        
         isImgEyeCloseDisplayed = true;
         
         imgEyeLabel = new JLabel(imgEyeOpen);
@@ -199,19 +255,24 @@ public class OlhoSeco extends javax.swing.JFrame {
             return;
         }
         
-        if(blinkSpeed < 500){
-            JOptionPane.showMessageDialog(this, "Velocidade inválida, deve ser maior que 500 ms");
+        if(blinkSpeed < 1){
+            JOptionPane.showMessageDialog(this, "Velocidade inválida, deve ser maior que 1 segundo");
             return;
         }
         
-        Timer timer = new Timer(500, new ActionListener() {
+        if (timer != null) {
+            timer.stop();
+            timer = null;
+        }
+        
+        timer = new Timer(500, new ActionListener() {
             private boolean showingEyeClose = true;
 
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (showingEyeClose) {
                     imgEyeLabel.setIcon(imgEyeClose);
-                    ((Timer)e.getSource()).setDelay(blinkSpeed);
+                    ((Timer)e.getSource()).setDelay(blinkSpeed*1000);
                 } else {
                     imgEyeLabel.setIcon(imgEyeOpen);
                     ((Timer)e.getSource()).setDelay(500);
@@ -226,9 +287,6 @@ public class OlhoSeco extends javax.swing.JFrame {
         GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice gd = ge.getDefaultScreenDevice();
         Rectangle screenBounds = gd.getDefaultConfiguration().getBounds();
-        
-        JFrame frame = new JFrame("");
-        frame.setSize(192, 108);
        
         int frameWidth = frame.getWidth();
         int frameHeight = frame.getHeight();
@@ -288,7 +346,6 @@ public class OlhoSeco extends javax.swing.JFrame {
         
         frame.add(imgEyeLabel);
         frame.pack();
-        frame.setSize(192, 108);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setAlwaysOnTop(true);
         frame.setVisible(true);
@@ -313,6 +370,10 @@ public class OlhoSeco extends javax.swing.JFrame {
     private void inputBlinkSpeedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inputBlinkSpeedActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_inputBlinkSpeedActionPerformed
+
+    private void largeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_largeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_largeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -356,8 +417,13 @@ public class OlhoSeco extends javax.swing.JFrame {
     private javax.swing.JButton btnToggleState;
     private javax.swing.JTextField inputBlinkSpeed;
     private javax.swing.JLabel labelPosition;
+    private javax.swing.JLabel labelSize;
     private javax.swing.JLabel labelSpeed;
+    private javax.swing.JRadioButton large;
+    private javax.swing.JRadioButton middle;
     private javax.swing.ButtonGroup positionGroup;
+    private javax.swing.ButtonGroup sizeGroup;
+    private javax.swing.JRadioButton small;
     private javax.swing.JRadioButton topLeft;
     private javax.swing.JRadioButton topRight;
     // End of variables declaration//GEN-END:variables
