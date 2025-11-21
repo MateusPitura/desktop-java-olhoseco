@@ -9,8 +9,6 @@
   <img src="https://img.shields.io/github/stars/MateusPitura/desktop-java-olhoseco?style=social"> 
 </p> 
 
-> :checkered_flag: This project is finished :checkered_flag:  
-
 ## Description
 
 This Java project aims to promote better eye health by encouraging users to blink correctly while working on computers for extended periods. 
